@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌏 Notre Voyage en Asie</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #f97316 0%, transparent 70%);
+      opacity: 0.07;
+      top: -100px; right: -100px;
+      border-radius: 50%;
+    }
+
+    .flags {
+      font-size: 52px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 20px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 80px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      background: linear-gradient(90deg, #f8d16b, #f97316, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero .subtitle {
+      font-size: clamp(14px, 2vw, 22px);
+      opacity: 0.6;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 10px;
+      font-weight: 300;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 48px;
+      justify-content: center;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 20px 28px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-card .icon { font-size: 28px; margin-bottom: 8px; }
+
+    .stat-card .value {
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 800;
+      background: linear-gradient(90deg, #f8d16b, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-card .label { font-size: 13px; opacity: 0.5; margin-top: 4px; }
+
+    .route {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 48px;
+      opacity: 0.6;
+      font-size: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    .route span { opacity: 0.4; }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      font-size: 13px;
+      opacity: 0.4;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+
+    /* ── COUNTRIES ── */
+    .country {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .country-banner {
+      padding: 60px 60px 40px;
+      position: relative;
+    }
+
+    .country-banner .watermark {
+      position: absolute;
+      right: 40px;
+      top: -10px;
+      font-size: 180px;
+      opacity: 0.08;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .country-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .country-flag { font-size: 70px; }
+
+    .country-name {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: white;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .country-badges {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.2);
+      border-radius: 30px;
+      padding: 6px 18px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .country-content {
+      flex: 1;
+      background: white;
+      padding: 40px 60px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-content: start;
+    }
+
+    @media (max-width: 700px) {
+      .country-content { grid-template-columns: 1fr; padding: 24px; }
+      .country-banner { padding: 40px 24px 30px; }
+    }
+
+    .card {
+      background: #f9fafb;
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .city-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .city-tag {
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .vibe-list { list-style: none; }
+
+    .vibe-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      font-size: 16px;
+      color: #374151;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .vibe-list li:last-child { border-bottom: none; }
+
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── BUDGET ── */
+    .budget {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 80px 60px;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) { .budget { padding: 40px 20px; } }
+
+    .budget h2 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 900;
+      background: linear-gradient(90deg, #f8d16b, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .budget .sub {
+      opacity: 0.5;
+      font-size: 18px;
+      margin-bottom: 48px;
+    }
+
+    .budget-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .budget-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 28px;
+      text-align: left;
+    }
+
+    .budget-label { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+
+    .budget-amount {
+      font-size: 32px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .bar-bg {
+      height: 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    .bar-pct { font-size: 12px; opacity: 0.4; margin-top: 6px; }
+
+    .final-msg {
+      margin-top: 60px;
+      font-size: clamp(20px, 3vw, 30px);
+      opacity: 0.7;
+      font-weight: 300;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      background: #0f172a;
+      padding: 80px 60px;
+    }
+
+    @media (max-width: 700px) { .timeline { padding: 40px 20px; } }
+
+    .timeline h2 {
+      font-size: clamp(24px, 4vw, 44px);
+      font-weight: 900;
+      background: linear-gradient(90deg, #f8d16b, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .timeline-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: all 0.6s ease;
+    }
+
+    .timeline-row.visible { opacity: 1; transform: translateX(0); }
+
+    .tl-flag { font-size: 36px; width: 50px; flex-shrink: 0; }
+
+    .tl-bar-wrap { flex: 1; }
+
+    .tl-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .tl-bar-bg {
+      height: 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .tl-bar {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 1.2s ease;
+    }
+
+    .tl-days {
+      font-size: 14px;
+      opacity: 0.5;
+      width: 110px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060b14;
+      text-align: center;
+      padding: 40px;
+      font-size: 14px;
+      opacity: 0.4;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(8px); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="flags">🇰🇷 🇯🇵 🇹🇭 🇻🇳</div>
+
+  <h1>Notre Voyage en Asie</h1>
+  <p class="subtitle">Octobre 2026 &nbsp;·&nbsp; 4–5 mois d'aventure</p>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="icon">💰</div>
+      <div class="value">20 000 €</div>
+      <div class="label">Budget total</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">🗺️</div>
+      <div class="value">4 pays</div>
+      <div class="label">Destinations</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">❤️</div>
+      <div class="value">2 amoureux</div>
+      <div class="label">Voyageurs</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon">📅</div>
+      <div class="value">~130 jours</div>
+      <div class="label">Durée estimée</div>
+    </div>
+  </div>
+
+  <div class="route">
+    🇰🇷 Corée du Sud <span>→</span>
+    🇯🇵 Japon <span>→</span>
+    🇹🇭 Thaïlande <span>→</span>
+    🇻🇳 Vietnam
+  </div>
+
+  <div class="scroll-hint">↓ &nbsp; Défiler</div>
+</section>
+
+<!-- ══ TIMELINE ══════════════════════════════════════════════════════════════ -->
+<section class="timeline">
+  <h2>🗓️ Calendrier du voyage</h2>
+
+  <div class="timeline-row" data-delay="0">
+    <div class="tl-flag">🇰🇷</div>
+    <div class="tl-bar-wrap">
+      <div class="tl-name">Corée du Sud</div>
+      <div class="tl-bar-bg">
+        <div class="tl-bar" style="width:0%; background: linear-gradient(90deg,#CD2E3A,#0047A0);" data-width="10%"></div>
+      </div>
+    </div>
+    <div class="tl-days">10–14 jours</div>
+  </div>
+
+  <div class="timeline-row" data-delay="100">
+    <div class="tl-flag">🇯🇵</div>
+    <div class="tl-bar-wrap">
+      <div class="tl-name">Japon</div>
+      <div class="tl-bar-bg">
+        <div class="tl-bar" style="width:0%; background: linear-gradient(90deg,#BC002D,#ff6b6b);" data-width="13%"></div>
+      </div>
+    </div>
+    <div class="tl-days">14–18 jours</div>
+  </div>
+
+  <div class="timeline-row" data-delay="200">
+    <div class="tl-flag">🇹🇭</div>
+    <div class="tl-bar-wrap">
+      <div class="tl-name">Thaïlande</div>
+      <div class="tl-bar-bg">
+        <div class="tl-bar" style="width:0%; background: linear-gradient(90deg,#A51931,#f59e0b);" data-width="45%"></div>
+      </div>
+    </div>
+    <div class="tl-days">6–8 semaines</div>
+  </div>
+
+  <div class="timeline-row" data-delay="300">
+    <div class="tl-flag">🇻🇳</div>
+    <div class="tl-bar-wrap">
+      <div class="tl-name">Vietnam</div>
+      <div class="tl-bar-bg">
+        <div class="tl-bar" style="width:0%; background: linear-gradient(90deg,#DA251D,#FFCD00);" data-width="38%"></div>
+      </div>
+    </div>
+    <div class="tl-days">5–6 semaines</div>
+  </div>
+</section>
+
+<!-- ══ CORÉE DU SUD ══════════════════════════════════════════════════════════ -->
+<section class="country fade-in">
+  <div class="country-banner" style="background: linear-gradient(135deg, #CD2E3A, #0047A0);">
+    <div class="watermark">🇰🇷</div>
+    <div class="country-header">
+      <div class="country-flag">🇰🇷</div>
+      <div>
+        <div class="country-name">Corée du Sud</div>
+        <div class="country-badges">
+          <span class="badge">📅 10–14 jours</span>
+          <span class="badge">💰 1 500 € / pers.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="country-content">
+    <div class="card">
+      <div class="card-title" style="color:#CD2E3A;">📍 Étapes clés</div>
+      <div class="city-tags">
+        <span class="city-tag" style="background:#CD2E3A18;color:#CD2E3A;border:1.5px solid #CD2E3A30;">Séoul</span>
+        <span class="city-tag" style="background:#CD2E3A18;color:#CD2E3A;border:1.5px solid #CD2E3A30;">Busan</span>
+        <span class="city-tag" style="background:#CD2E3A18;color:#CD2E3A;border:1.5px solid #CD2E3A30;">Gyeongju</span>
+        <span class="city-tag" style="background:#CD2E3A18;color:#CD2E3A;border:1.5px solid #CD2E3A30;">Incheon</span>
+        <span class="city-tag" style="background:#CD2E3A18;color:#CD2E3A;border:1.5px solid #CD2E3A30;">Jeju</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:#CD2E3A;">🏯 À faire</div>
+      <ul class="vibe-list">
+        <li><span class="dot" style="background:#CD2E3A;"></span>Quartier de Hongdae & K-pop</li>
+        <li><span class="dot" style="background:#CD2E3A;"></span>Palais de Gyeongbokgung</li>
+        <li><span class="dot" style="background:#CD2E3A;"></span>Street food au marché Gwangjang</li>
+        <li><span class="dot" style="background:#CD2E3A;"></span>Villages Hanok traditionnels</li>
+        <li><span class="dot" style="background:#CD2E3A;"></span>Bains de sources chaudes</li>
+      </ul>
+    </div>
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card-title" style="color:#CD2E3A;">💡 Infos pratiques</div>
+      <p style="color:#374151;line-height:1.8;font-size:15px;">
+        Visa non requis (90 jours) · Monnaie : Won (KRW) · Budget repas très bas (ramyeon ~2€, barbecue coréen ~12€) ·
+        Transport en commun ultra-efficace · Meilleur moment : octobre = feuilles rouges + températures douces 🍂
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ JAPON ═════════════════════════════════════════════════════════════════ -->
+<section class="country fade-in">
+  <div class="country-banner" style="background: linear-gradient(135deg, #BC002D, #ff6b6b99);">
+    <div class="watermark">🇯🇵</div>
+    <div class="country-header">
+      <div class="country-flag">🇯🇵</div>
+      <div>
+        <div class="country-name">Japon</div>
+        <div class="country-badges">
+          <span class="badge">📅 14–18 jours</span>
+          <span class="badge">💰 2 500 € / pers.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="country-content">
+    <div class="card">
+      <div class="card-title" style="color:#BC002D;">📍 Étapes clés</div>
+      <div class="city-tags">
+        <span class="city-tag" style="background:#BC002D18;color:#BC002D;border:1.5px solid #BC002D30;">Tokyo</span>
+        <span class="city-tag" style="background:#BC002D18;color:#BC002D;border:1.5px solid #BC002D30;">Kyoto</span>
+        <span class="city-tag" style="background:#BC002D18;color:#BC002D;border:1.5px solid #BC002D30;">Osaka</span>
+        <span class="city-tag" style="background:#BC002D18;color:#BC002D;border:1.5px solid #BC002D30;">Nara</span>
+        <span class="city-tag" style="background:#BC002D18;color:#BC002D;border:1.5px solid #BC002D30;">Hiroshima</span>
+        <span class="city-tag" style="background:#BC002D18;color:#BC002D;border:1.5px solid #BC002D30;">Hakone</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:#BC002D;">⛩️ À faire</div>
+      <ul class="vibe-list">
+        <li><span class="dot" style="background:#BC002D;"></span>Temples & jardins zen de Kyoto</li>
+        <li><span class="dot" style="background:#BC002D;"></span>Forêt de bambous d'Arashiyama</li>
+        <li><span class="dot" style="background:#BC002D;"></span>Vue sur le Mont Fuji (Hakone)</li>
+        <li><span class="dot" style="background:#BC002D;"></span>Gastronomie : ramen, sushi, wagyu</li>
+        <li><span class="dot" style="background:#BC002D;"></span>Cerfs de Nara</li>
+      </ul>
+    </div>
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card-title" style="color:#BC002D;">💡 Infos pratiques</div>
+      <p style="color:#374151;line-height:1.8;font-size:15px;">
+        Visa non requis (90 jours) · Monnaie : Yen (JPY) · Prendre un JR Pass pour les trains (économise beaucoup) ·
+        Budget plus élevé mais justifié · Octobre = couleurs d'automne magnifiques 🍁
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THAÏLANDE ═════════════════════════════════════════════════════════════ -->
+<section class="country fade-in">
+  <div class="country-banner" style="background: linear-gradient(135deg, #A51931, #f59e0b99);">
+    <div class="watermark">🇹🇭</div>
+    <div class="country-header">
+      <div class="country-flag">🇹🇭</div>
+      <div>
+        <div class="country-name">Thaïlande</div>
+        <div class="country-badges">
+          <span class="badge">📅 6–8 semaines</span>
+          <span class="badge">💰 2 500 € / pers.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="country-content">
+    <div class="card">
+      <div class="card-title" style="color:#A51931;">📍 Étapes clés</div>
+      <div class="city-tags">
+        <span class="city-tag" style="background:#A5193118;color:#A51931;border:1.5px solid #A5193130;">Bangkok</span>
+        <span class="city-tag" style="background:#A5193118;color:#A51931;border:1.5px solid #A5193130;">Chiang Mai</span>
+        <span class="city-tag" style="background:#A5193118;color:#A51931;border:1.5px solid #A5193130;">Pai</span>
+        <span class="city-tag" style="background:#A5193118;color:#A51931;border:1.5px solid #A5193130;">Koh Samui</span>
+        <span class="city-tag" style="background:#A5193118;color:#A51931;border:1.5px solid #A5193130;">Koh Phangan</span>
+        <span class="city-tag" style="background:#A5193118;color:#A51931;border:1.5px solid #A5193130;">Krabi</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:#A51931;">🐘 À faire</div>
+      <ul class="vibe-list">
+        <li><span class="dot" style="background:#A51931;"></span>Temples dorés de Bangkok (Wat Pho…)</li>
+        <li><span class="dot" style="background:#A51931;"></span>Sanctuaire d'éléphants éthique</li>
+        <li><span class="dot" style="background:#A51931;"></span>Plages des îles du sud</li>
+        <li><span class="dot" style="background:#A51931;"></span>Street food & cours de cuisine thaï</li>
+        <li><span class="dot" style="background:#A51931;"></span>Nuit dans la jungle à Pai</li>
+      </ul>
+    </div>
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card-title" style="color:#A51931;">💡 Infos pratiques</div>
+      <p style="color:#374151;line-height:1.8;font-size:15px;">
+        Visa à l'arrivée (30 jours, renouvelable) · Monnaie : Baht (THB) · Très bon marché (repas ~2€, hébergement ~15€/nuit) ·
+        Saison idéale nov–fév (sec et frais) · Transports en tuk-tuk, bus, bateau 🛺
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VIETNAM ════════════════════════════════════════════════════════════════ -->
+<section class="country fade-in">
+  <div class="country-banner" style="background: linear-gradient(135deg, #DA251D, #FFCD0099);">
+    <div class="watermark">🇻🇳</div>
+    <div class="country-header">
+      <div class="country-flag">🇻🇳</div>
+      <div>
+        <div class="country-name">Vietnam</div>
+        <div class="country-badges">
+          <span class="badge">📅 5–6 semaines</span>
+          <span class="badge">💰 1 500 € / pers.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="country-content">
+    <div class="card">
+      <div class="card-title" style="color:#DA251D;">📍 Étapes clés</div>
+      <div class="city-tags">
+        <span class="city-tag" style="background:#DA251D18;color:#DA251D;border:1.5px solid #DA251D30;">Hanoi</span>
+        <span class="city-tag" style="background:#DA251D18;color:#DA251D;border:1.5px solid #DA251D30;">Baie d'Halong</span>
+        <span class="city-tag" style="background:#DA251D18;color:#DA251D;border:1.5px solid #DA251D30;">Hội An</span>
+        <span class="city-tag" style="background:#DA251D18;color:#DA251D;border:1.5px solid #DA251D30;">Đà Nẵng</span>
+        <span class="city-tag" style="background:#DA251D18;color:#DA251D;border:1.5px solid #DA251D30;">Sapa</span>
+        <span class="city-tag" style="background:#DA251D18;color:#DA251D;border:1.5px solid #DA251D30;">Hô Chi Minh-Ville</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:#DA251D;">🛵 À faire</div>
+      <ul class="vibe-list">
+        <li><span class="dot" style="background:#DA251D;"></span>Croisière dans la baie d'Halong</li>
+        <li><span class="dot" style="background:#DA251D;"></span>Vieille ville de Hội An la nuit</li>
+        <li><span class="dot" style="background:#DA251D;"></span>Rizières en terrasses de Sapa</li>
+        <li><span class="dot" style="background:#DA251D;"></span>Street food : phở, bánh mì, bún bò</li>
+        <li><span class="dot" style="background:#DA251D;"></span>Balade en scooter</li>
+      </ul>
+    </div>
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card-title" style="color:#DA251D;">💡 Infos pratiques</div>
+      <p style="color:#374151;line-height:1.8;font-size:15px;">
+        E-visa (25$, 90 jours) · Monnaie : Dong (VND) · Le moins cher du voyage (repas ~1€, bière ~0,50€) ·
+        Traverser le pays du Nord au Sud en bus ou train de nuit · Le scooter est roi 🛵
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BUDGET ═════════════════════════════════════════════════════════════════ -->
+<section class="budget">
+  <h2>💰 Budget du voyage</h2>
+  <p class="sub">20 000 € au total &nbsp;·&nbsp; 10 000 € par personne</p>
+
+  <div class="budget-grid">
+    <div class="budget-card fade-in">
+      <div class="budget-label">🇰🇷 Corée du Sud</div>
+      <div class="budget-amount" style="color:#CD2E3A;">3 000 €</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:0%;background:#CD2E3A;" data-width="15%"></div></div>
+      <div class="bar-pct">15% du budget total</div>
+    </div>
+    <div class="budget-card fade-in">
+      <div class="budget-label">🇯🇵 Japon</div>
+      <div class="budget-amount" style="color:#BC002D;">5 000 €</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:0%;background:#BC002D;" data-width="25%"></div></div>
+      <div class="bar-pct">25% du budget total</div>
+    </div>
+    <div class="budget-card fade-in">
+      <div class="budget-label">🇹🇭 Thaïlande</div>
+      <div class="budget-amount" style="color:#f59e0b;">5 000 €</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:0%;background:#f59e0b;" data-width="25%"></div></div>
+      <div class="bar-pct">25% du budget total</div>
+    </div>
+    <div class="budget-card fade-in">
+      <div class="budget-label">🇻🇳 Vietnam</div>
+      <div class="budget-amount" style="color:#DA251D;">3 000 €</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:0%;background:#DA251D;" data-width="15%"></div></div>
+      <div class="bar-pct">15% du budget total</div>
+    </div>
+    <div class="budget-card fade-in">
+      <div class="budget-label">✈️ Vols</div>
+      <div class="budget-amount" style="color:#6366f1;">2 000 €</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:0%;background:#6366f1;" data-width="10%"></div></div>
+      <div class="bar-pct">10% du budget total</div>
+    </div>
+    <div class="budget-card fade-in">
+      <div class="budget-label">🛡️ Assurance & imprévus</div>
+      <div class="budget-amount" style="color:#8b5cf6;">2 000 €</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:0%;background:#8b5cf6;" data-width="10%"></div></div>
+      <div class="bar-pct">10% du budget total</div>
+    </div>
+  </div>
+
+  <p class="final-msg">Bon voyage à vous deux ! 🌏 ✨</p>
+</section>
+
+<footer>
+  Voyage Asie · Octobre 2026 · Fait avec ❤️
+</footer>
+
+<script>
+  // Intersection Observer pour les animations au scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+
+        // Animer les barres de budget
+        entry.target.querySelectorAll('.bar-fill[data-width]').forEach(bar => {
+          setTimeout(() => { bar.style.width = bar.dataset.width; }, 200);
+        });
+
+        // Animer les barres timeline
+        entry.target.querySelectorAll('.tl-bar[data-width]').forEach(bar => {
+          const delay = parseInt(bar.closest('.timeline-row')?.dataset.delay || 0);
+          setTimeout(() => { bar.style.width = bar.dataset.width; }, delay + 200);
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+
+  // Observer toutes les sections animées
+  document.querySelectorAll('.fade-in, .timeline-row').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Animer les barres timeline dès qu'elles sont visibles
+  const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        const bar = entry.target.querySelector('.tl-bar[data-width]');
+        if (bar) {
+          const delay = parseInt(entry.target.dataset.delay || 0);
+          setTimeout(() => { bar.style.width = bar.dataset.width; }, delay + 300);
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.timeline-row').forEach(el => {
+    timelineObserver.observe(el);
+  });
+</script>
+
+</body>
+</html>
