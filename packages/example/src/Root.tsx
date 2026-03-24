@@ -1,4 +1,5 @@
 import {alias} from 'lib/alias';
+import {AsiaTripPlanner, TOTAL_FRAMES} from './AsiaTrip';
 import React, {useCallback, useMemo} from 'react';
 import {
 	CalculateMetadataFunction,
@@ -284,6 +285,14 @@ export const Index: React.FC = () => {
 
 	return (
 		<>
+			<Composition
+				id="AsiaTripPlanner"
+				component={AsiaTripPlanner}
+				width={1920}
+				height={1080}
+				fps={30}
+				durationInFrames={TOTAL_FRAMES}
+			/>
 			<Folder name="dynamic-parameters">
 				<Composition
 					id="dynamic-length"
